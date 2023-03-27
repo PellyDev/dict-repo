@@ -1,0 +1,137 @@
+/* CSS RESET
+______________________________________________________________________________________
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.5;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+/* 
+______________________________________________________________________________________ 
+*/
+
+@font-face {
+    font-family: Inconsolata;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/Inconsolata/Inconsolata-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/Inter/Inter-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Lora;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/lora/Lora-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: Lora;
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/lora/Lora-Italic-VariableFont_wght.ttf") format("truetype");
+}
+
+:root {
+    /* fonts */
+    --ff-sans-serif: Inter, sans-serif;
+    --ff-serif: Lora, serif;
+    --ff-mono: Inconsolata, monospace;
+    --fs-heading-l: 64px;
+    --fs-heading-m: 24px;
+    --fs-body-m: 18px;
+    --fs-body-s: 14px;
+    --fw-bold: bold;
+    --fw-normal: normal;
+    /* colors */
+    --color-primary: #2d2d2d;
+    --color-primary-light: #757575;
+    --color-accent: #a445ed;
+    --color-error: #ff5252;
+}
+
+body {
+    font-family: var(--ff-sans-serif);
+    color: var(--color-primary);
+    max-width: 737px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    height: 38px;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-primary);
+    padding: 2rem 0;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.font-select {
+    appearance: none;
+    font-size: var(--fs-body-m);
+    font-weight: 600;
+    border: none;
+}
+
+.font-select:focus {
+}
+
+.select-container {
+    display: flex;
+    gap: 0.5rem;
+}
