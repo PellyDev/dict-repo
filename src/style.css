@@ -54,7 +54,8 @@ ________________________________________________________________________________
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url("fonts/Inconsolata/Inconsolata-Regular.ttf") format("truetype");
+    src: url("/fonts/inconsolata/Inconsolata-VariableFont_wdth\,wght.ttf")
+        format("truetype");
 }
 
 @font-face {
@@ -62,7 +63,8 @@ ________________________________________________________________________________
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url("fonts/Inter/Inter-Regular.ttf") format("truetype");
+    src: url("/fonts/inter/Inter-VariableFont_slnt\,wght.ttf")
+        format("truetype");
 }
 
 @font-face {
@@ -70,7 +72,7 @@ ________________________________________________________________________________
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
-    src: url("fonts/lora/Lora-VariableFont_wght.ttf") format("truetype");
+    src: url("/fonts/lora/Lora-VariableFont_wght.ttf") format("truetype");
 }
 
 @font-face {
@@ -78,7 +80,7 @@ ________________________________________________________________________________
     font-style: italic;
     font-weight: 100 900;
     font-display: swap;
-    src: url("fonts/lora/Lora-Italic-VariableFont_wght.ttf") format("truetype");
+    src: url("/fonts/lora/Lora-Italic-VariableFont_wght.ttf") format("truetype");
 }
 
 :root {
@@ -90,11 +92,13 @@ ________________________________________________________________________________
     --fs-heading-m: 24px;
     --fs-body-m: 18px;
     --fs-body-s: 14px;
-    --fw-bold: bold;
     --fw-normal: normal;
+    --fw-bold: 600;
+    --fw-boldest: 800;
     /* colors */
     --color-primary: #2d2d2d;
     --color-primary-light: #757575;
+    --color-primary-lightest: #f4f4f4;
     --color-accent: #a445ed;
     --color-error: #ff5252;
 }
@@ -121,17 +125,56 @@ body {
     gap: 1.5rem;
 }
 
-.font-select {
-    appearance: none;
-    font-size: var(--fs-body-m);
-    font-weight: 600;
-    border: none;
-}
-
-.font-select:focus {
-}
-
 .select-container {
+    user-select: none;
     display: flex;
     gap: 0.5rem;
+    position: relative;
+}
+
+.select-modal {
+    display: hidden;
+    position: absolute;
+    background-color: var(--color-primary-lightest);
+    border: 1px solid var(--color-accent);
+    border-radius: 1rem;
+    color: var(--color-primary);
+    font-weight: bold;
+    width: 150px;
+    top: 150%;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    translate: 0 -20%;
+    transition: opacity 200ms ease-in-out, translate 200ms ease-in-out;
+}
+
+.select-modal.active {
+    pointer-events: all;
+    display: flex;
+    opacity: 1;
+    translate: 0 0;
+}
+
+.select-current {
+    font-weight: var(--fw-bold);
+    width: 85px;
+}
+
+.select-modal-item:nth-of-type(1) {
+    font-family: var(--ff-sans-serif);
+}
+
+.select-modal-item:nth-of-type(2) {
+    font-family: var(--ff-serif);
+}
+
+.select-modal-item:nth-of-type(3) {
+    font-family: var(--ff-mono);
+}
+
+.select-modal-item.selected {
+    color: var(--color-accent);
 }

@@ -5,6 +5,7 @@ function App() {
     return (
         <>
             <Header />
+            <h1>this is a sample text</h1>
         </>
     )
 }
