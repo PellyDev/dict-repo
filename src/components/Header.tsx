@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react"
 
-export default function Header() {
+type Props = {
+    darkMode: {
+        isDarkMode: boolean
+        setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
+    }
+}
+
+export default function Header(props: Props) {
+    const { isDarkMode, setIsDarkMode } = props.darkMode
+
     const [showSelectModal, setShowSelectModal] = useState<boolean>(false),
-        [currentSelection, setCurrentSelection] =
-            useState<string>("sans-serif"),
-        [darkMode, setDarkMode] = useState<boolean>(false)
+        [currentSelection, setCurrentSelection] = useState<string>("sans-serif")
 
     useEffect(() => {
         function handleClick(e: MouseEvent): void {
@@ -116,11 +123,11 @@ export default function Header() {
                 <div
                     className="dark-mode"
                     onClick={() => {
-                        setDarkMode((prev) => !prev)
+                        setIsDarkMode((prev) => !prev)
                     }}
                 >
                     <svg
-                        className={`${darkMode ? "active" : ""}`}
+                        className={`${isDarkMode ? "active" : ""}`}
                         xmlns="http://www.w3.org/2000/svg"
                         width="22"
                         height="22"
@@ -134,8 +141,8 @@ export default function Header() {
                             d="M1 10.449a10.544 10.544 0 0 0 19.993 4.686C11.544 15.135 6.858 10.448 6.858 1A10.545 10.545 0 0 0 1 10.449Z"
                         />
                     </svg>
-                    <p className={`${darkMode ? "active" : ""}`}>
-                        {darkMode ? "On" : "Off"}
+                    <p className={`${isDarkMode ? "active" : ""}`}>
+                        {isDarkMode ? "On" : "Off"}
                     </p>
                 </div>
             </div>
