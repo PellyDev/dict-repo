@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 
 export default function Header() {
-    const [showSelectModal, setShowSelectModal] = useState<boolean>(false)
-    const [currentSelection, setCurrentSelection] =
-        useState<string>("sans-serif")
+    const [showSelectModal, setShowSelectModal] = useState<boolean>(false),
+        [currentSelection, setCurrentSelection] =
+            useState<string>("sans-serif"),
+        [darkMode, setDarkMode] = useState<boolean>(false)
 
     useEffect(() => {
         function handleClick(e: MouseEvent): void {
-            console.log("test")
             const target = e.target as HTMLDivElement
             if (
                 target.classList.contains(".select-container") ||
@@ -113,8 +113,31 @@ export default function Header() {
                     <img src="images/icon-arrow-down.svg" alt="" />
                 </div>
                 <img src="images/divider.svg" alt="" />
-                <input type="checkbox" id="darkmode" />
-                <label htmlFor="darkmode"></label>
+                <div
+                    className="dark-mode"
+                    onClick={() => {
+                        setDarkMode((prev) => !prev)
+                    }}
+                >
+                    <svg
+                        className={`${darkMode ? "active" : ""}`}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                    >
+                        <path
+                            stroke="#838383"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1"
+                            d="M1 10.449a10.544 10.544 0 0 0 19.993 4.686C11.544 15.135 6.858 10.448 6.858 1A10.545 10.545 0 0 0 1 10.449Z"
+                        />
+                    </svg>
+                    <p className={`${darkMode ? "active" : ""}`}>
+                        {darkMode ? "On" : "Off"}
+                    </p>
+                </div>
             </div>
         </header>
     )

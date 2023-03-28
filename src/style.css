@@ -111,6 +111,7 @@ body {
 }
 
 .header {
+    user-select: none;
     display: flex;
     height: 38px;
     justify-content: space-between;
@@ -128,7 +129,6 @@ body {
 /* font selection dropdown */
 
 .select-container {
-    user-select: none;
     display: flex;
     gap: 0.5rem;
     position: relative;
@@ -182,3 +182,32 @@ body {
 }
 
 /* dark mode */
+
+.dark-mode {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    font-size: var(--fs-body-s);
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.dark-mode svg {
+    fill: var(--color-accent);
+    fill-opacity: 0;
+    transition: fill-opacity 200ms ease-in-out;
+}
+
+.dark-mode svg.active {
+    fill-opacity: 1;
+}
+
+.dark-mode p {
+    font-weight: var(--fw-bold);
+    color: var(--color-primary-light);
+    transition: color 200ms ease-in-out;
+}
+
+.dark-mode p.active {
+    color: var(--color-accent);
+}
