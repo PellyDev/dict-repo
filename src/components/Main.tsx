@@ -20,37 +20,71 @@ export default function Main() {
                 <div className="main-body">
                     <div className="body-noun-container">
                         <div className="noun-divider">
-                            <h2>
-                                noun
-                                <span className="divider">
-                                    <hr />
-                                </span>
-                            </h2>
+                            <h2>noun</h2>
+                            <hr className="divider" />
                         </div>
                         <h3>Meaning</h3>
                         <ul className="meanings">
-                            <li className="meaning"></li>
+                            <li className="meaning">
+                                (etc.) A set of keys used to operate a
+                                typewriter, computer etc.
+                            </li>
+                            <li className="meaning">
+                                A component of many instruments including the
+                                piano, organ, and harpsichord consisting of
+                                usually black and white keys that cause
+                                different tones to be produced when struck.
+                            </li>
+                            <li className="meaning">
+                                A device with keys of a musical keyboard, used
+                                to control electronic sound-producing devices
+                                which may be built into or separate from the
+                                keyboard device.
+                            </li>
                         </ul>
-                        <h3>Synonyms</h3>
+                        <div className="synonyms-container">
+                            <h3>Synonyms</h3>
+                            <ul className="synonyms">
+                                <li>
+                                    <a href="">big pp</a>
+                                </li>
+                                <li>
+                                    <a href="">big pp</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="body-verb-container">
                         <div className="verb-divider">
                             <h2>verb</h2>
-                            <span className="divider">
-                                <hr />
-                            </span>
+                            <hr className="divider" />
                         </div>
                         <h3>Meaning</h3>
                         <ul className="meanings">
-                            <li className="meaning"></li>
+                            <li className="meaning">
+                                (etc.) A set of keys used to operate a
+                                typewriter, computer etc.
+                            </li>
+                            <li className="meaning">
+                                A component of many instruments including the
+                                piano, organ, and harpsichord consisting of
+                                usually black and white keys that cause
+                                different tones to be produced when struck.
+                            </li>
+                            <li className="meaning">
+                                A device with keys of a musical keyboard, used
+                                to control electronic sound-producing devices
+                                which may be built into or separate from the
+                                keyboard device.
+                            </li>
                         </ul>
                     </div>
                 </div>
+                <hr />
                 <div className="main-footer">
                     <h4>Source</h4>
-                    <span>
-                        <p></p>
-                    </span>
+                    <a href="">www.deinemom.de</a>
+                    <img src="images/icon-new-window.svg" alt="" />
                 </div>
             </main>
         </>
