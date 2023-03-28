@@ -125,6 +125,8 @@ body {
     gap: 1.5rem;
 }
 
+/* font selection dropdown */
+
 .select-container {
     user-select: none;
     display: flex;
@@ -134,6 +136,7 @@ body {
 
 .select-modal {
     display: hidden;
+    pointer-events: none;
     position: absolute;
     background-color: var(--color-primary-lightest);
     border: 1px solid var(--color-accent);
@@ -146,14 +149,13 @@ body {
     gap: 0.25rem;
     padding: 1rem;
     opacity: 0;
-    pointer-events: none;
-    translate: 0 -20%;
+    translate: 0 -25%;
     transition: opacity 200ms ease-in-out, translate 200ms ease-in-out;
 }
 
 .select-modal.active {
-    pointer-events: all;
     display: flex;
+    pointer-events: auto;
     opacity: 1;
     translate: 0 0;
 }
@@ -163,18 +165,20 @@ body {
     width: 85px;
 }
 
-.select-modal-item:nth-of-type(1) {
+.select-modal-item#sans-serif {
     font-family: var(--ff-sans-serif);
 }
 
-.select-modal-item:nth-of-type(2) {
+.select-modal-item#serif {
     font-family: var(--ff-serif);
 }
 
-.select-modal-item:nth-of-type(3) {
+.select-modal-item#mono {
     font-family: var(--ff-mono);
 }
 
 .select-modal-item.selected {
     color: var(--color-accent);
 }
+
+/* dark mode */

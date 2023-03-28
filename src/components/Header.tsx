@@ -1,26 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Header() {
     const [showSelectModal, setShowSelectModal] = useState<boolean>(false)
     const [currentSelection, setCurrentSelection] =
         useState<string>("sans-serif")
 
+    useEffect(() => {
+        function handleClick(e: MouseEvent): void {
+            console.log("test")
+            const target = e.target as HTMLDivElement
+            if (
+                target.classList.contains(".select-container") ||
+                target.closest(".select-container")
+            )
+                return
+            setShowSelectModal(false)
+        }
+        document.addEventListener("click", handleClick)
+        return () => {
+            document.removeEventListener("click", handleClick)
+        }
+    }, [])
+
     function handleModalSelection(e: React.MouseEvent<HTMLDivElement>) {
         const target = e.target as HTMLDivElement
         setCurrentSelection(target.id)
-        // set the font family based on selection in the modal
-        const bodyStyle = document.body.style
-        switch (currentSelection) {
-            case "sans-serif":
-                bodyStyle.setProperty("font-family", "var(--ff-sans-serif)")
-                break
-            case "serif":
-                bodyStyle.setProperty("font-family", "var(--ff-serif)")
-                break
-            case "mono":
-                bodyStyle.setProperty("font-family", "var(--ff-mono)")
-                break
-        }
     }
 
     function displayCurrentSelection(sel: string): string {
@@ -34,6 +38,19 @@ export default function Header() {
             default:
                 return "Sans Serif"
         }
+    }
+
+    const bodyStyle = document.body.style
+    switch (currentSelection) {
+        case "sans-serif":
+            bodyStyle.setProperty("font-family", "var(--ff-sans-serif)")
+            break
+        case "serif":
+            bodyStyle.setProperty("font-family", "var(--ff-serif)")
+            break
+        case "mono":
+            bodyStyle.setProperty("font-family", "var(--ff-mono)")
+            break
     }
 
     return (
@@ -56,7 +73,10 @@ export default function Header() {
                     >
                         <div
                             id="sans-serif"
-                            onClick={handleModalSelection}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleModalSelection(e)
+                            }}
                             className={`select-modal-item ${
                                 currentSelection === "sans-serif"
                                     ? "selected"
@@ -67,7 +87,10 @@ export default function Header() {
                         </div>
                         <div
                             id="serif"
-                            onClick={handleModalSelection}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleModalSelection(e)
+                            }}
                             className={`select-modal-item ${
                                 currentSelection === "serif" ? "selected" : ""
                             }`}
@@ -76,7 +99,10 @@ export default function Header() {
                         </div>
                         <div
                             id="mono"
-                            onClick={handleModalSelection}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                handleModalSelection(e)
+                            }}
                             className={`select-modal-item ${
                                 currentSelection === "mono" ? "selected" : ""
                             }`}
@@ -84,14 +110,11 @@ export default function Header() {
                             Mono
                         </div>
                     </div>
-
                     <img src="images/icon-arrow-down.svg" alt="" />
                 </div>
                 <img src="images/divider.svg" alt="" />
-                <label className="darkmode">
-                    <input type="checkbox" />
-                    <span className="slider round"></span>
-                </label>
+                <input type="checkbox" id="darkmode" />
+                <label htmlFor="darkmode"></label>
             </div>
         </header>
     )
