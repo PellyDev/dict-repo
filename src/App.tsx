@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import Header from "./components/Header"
+import Main from "./components/Main"
 
 function App() {
     const [searchTerm, setSearchTerm] = useState<string>("")
@@ -13,7 +14,6 @@ function App() {
         /* api call here */
         setSearchTerm("")
     }
-    console.log(searchTerm)
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
         <>
@@ -34,6 +34,7 @@ function App() {
                     <img src="/images/icon-search.svg" alt="" />
                 </button>
             </form>
+            <Main />
         </>
     )
 }
