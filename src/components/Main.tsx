@@ -1,4 +1,15 @@
-export default function Main() {
+import {
+    IWord,
+    IMeanings,
+    IDefinitions,
+    IPhonetics,
+} from "../interfaces/interface"
+
+type Props = {
+    data: Array<IWord>
+}
+
+export default function Main(props: Props) {
     return (
         <>
             <main className="main">

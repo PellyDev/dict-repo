@@ -11,8 +11,9 @@ export function useFetch() {
             if (!res.ok) setErr(res.status)
             const json = await res.json()
             setData(json)
-        } catch (error) {
-            setErr(err)
+        } catch (e) {
+            console.log
+            setErr(e)
         } finally {
             setLoading(false)
         }

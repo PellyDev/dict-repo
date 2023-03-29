@@ -44,7 +44,7 @@ function App() {
             {loading ? (
                 <div style={{ fontSize: "100px" }}>Loading...</div>
             ) : (
-                <Main />
+                <Main data={data} />
             )}
         </>
     )
