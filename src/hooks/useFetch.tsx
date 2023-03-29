@@ -9,6 +9,7 @@ export function useFetch() {
     const [loading, setLoading] = useState<boolean>(false)
     async function fetchUrl(url: string) {
         setLoading(true)
+        setData(null)
         try {
             const res = await fetch(url)
             if (!res.ok) setErr(res.status)

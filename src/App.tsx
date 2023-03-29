@@ -20,7 +20,6 @@ function App() {
         fetchUrl(API_BASE_URL + searchTerm)
         setSearchTerm("")
     }
-    console.log(data)
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
         <>

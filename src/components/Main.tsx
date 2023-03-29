@@ -30,7 +30,7 @@ export default function Main(props: TProps) {
         if (temp.length === 0) return undefined
         // destructure the nounMeanings array from the temp array
         const { definitions: meaningsList } = temp[0]
-        // map over the nounMeanings array and return a list item for each meaning
+        // map over the nounMeanings array and return a new array that contains a list item for each meaning
         return meaningsList.map((meaning, idx) => {
             return (
                 <li key={idx} className="meaning">
@@ -64,10 +64,17 @@ export default function Main(props: TProps) {
                             <h2>noun</h2>
                             <hr className="divider" />
                         </div>
-                        <h3>Meaning</h3>
-                        <ul className="meanings">
-                            {generateMeanings(data.meanings, "noun")}
-                        </ul>
+                        {generateMeanings(data.meanings, "noun") ===
+                        undefined ? (
+                            <h3>No noun found 😢</h3>
+                        ) : (
+                            <>
+                                <h3>Meanings</h3>
+                                <ul className="meanings">
+                                    {generateMeanings(data.meanings, "noun")}
+                                </ul>
+                            </>
+                        )}
                         <div className="synonyms-container">
                             <h3>Synonyms</h3>
                             <ul className="synonyms">
@@ -85,10 +92,17 @@ export default function Main(props: TProps) {
                             <h2>verb</h2>
                             <hr className="divider" />
                         </div>
-                        <h3>Meaning</h3>
-                        <ul className="meanings">
-                            {generateMeanings(data.meanings, "verb")}
-                        </ul>
+                        {generateMeanings(data.meanings, "verb") ===
+                        undefined ? (
+                            <h3>No verbs found 😢</h3>
+                        ) : (
+                            <>
+                                <h3>Meanings</h3>
+                                <ul className="meanings">
+                                    {generateMeanings(data.meanings, "verb")}
+                                </ul>
+                            </>
+                        )}
                     </div>
                 </div>
                 <hr />
