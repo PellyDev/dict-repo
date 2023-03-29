@@ -12,20 +12,20 @@ export interface IWord {
     word: string
 }
 
-interface IMeanings {
+export interface IMeanings {
     antonyms: Array<string>
     definitions: Array<IDefinitions>
     partOfSpeech: string
     synonyms: Array<string>
 }
 
-interface IDefinitions {
+export interface IDefinitions {
     definition: string
     synonyms: Array<string>
     antonyms: Array<string>
 }
 
-interface IPhonetics {
+export interface IPhonetics {
     audio: string
     license: { name: string; url: string }
     sourceUrl: string

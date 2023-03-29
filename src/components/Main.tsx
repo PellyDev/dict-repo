@@ -1,18 +1,53 @@
-import { IWord, IError } from "../interfaces/interface"
+import { IWord, IError, IMeanings } from "../interfaces/interface"
 
-type Props = {
-    data: Array<IWord> | IError | null
+/* this component is only gonna be rendered if api call has been successful, therefore we don't need to check prop type for IWord or null  */
+type TProps = {
+    data: Array<IWord>
 }
 
-export default function Main(props: Props) {
+export default function Main(props: TProps) {
+    const data = props.data[0]
+
+    const headWord = data.word
+    const pronounciation = data.phonetics[0]?.text
+    const audio = data.phonetics[0]?.audio
+    const source = data.sourceUrls[0]
+
+    function generateMeanings(
+        meanings: Array<IMeanings>,
+        partOfSpeech: "noun" | "verb"
+    ): Array<JSX.Element> | undefined {
+        // filter the meanings array to only include the array that matches the partOfSpeech
+        let flag = false
+        const temp = meanings.filter((meaning) => {
+            if (flag) return false
+            if (meaning.partOfSpeech === partOfSpeech) {
+                flag = true
+                return meaning
+            }
+        })
+        // if no meaning for verb or noun has been found, return undefined
+        if (temp.length === 0) return undefined
+        // destructure the nounMeanings array from the temp array
+        const { definitions: meaningsList } = temp[0]
+        // map over the nounMeanings array and return a list item for each meaning
+        return meaningsList.map((meaning, idx) => {
+            return (
+                <li key={idx} className="meaning">
+                    {meaning.definition}
+                </li>
+            )
+        })
+    }
+
     return (
         <>
             <main className="main">
                 <div className="main-head">
                     <div className="head-left">
-                        <h1 className="head-word">zeword</h1>
+                        <h1 className="head-word">{headWord}</h1>
                         <div className="head-pronounciation">
-                            <p className="pronounciation">/ˈkiːbɔːd/</p>
+                            <p className="pronounciation">{pronounciation}</p>
                         </div>
                     </div>
                     <div className="head-right">
@@ -31,22 +66,7 @@ export default function Main(props: Props) {
                         </div>
                         <h3>Meaning</h3>
                         <ul className="meanings">
-                            <li className="meaning">
-                                (etc.) A set of keys used to operate a
-                                typewriter, computer etc.
-                            </li>
-                            <li className="meaning">
-                                A component of many instruments including the
-                                piano, organ, and harpsichord consisting of
-                                usually black and white keys that cause
-                                different tones to be produced when struck.
-                            </li>
-                            <li className="meaning">
-                                A device with keys of a musical keyboard, used
-                                to control electronic sound-producing devices
-                                which may be built into or separate from the
-                                keyboard device.
-                            </li>
+                            {generateMeanings(data.meanings, "noun")}
                         </ul>
                         <div className="synonyms-container">
                             <h3>Synonyms</h3>
@@ -67,29 +87,16 @@ export default function Main(props: Props) {
                         </div>
                         <h3>Meaning</h3>
                         <ul className="meanings">
-                            <li className="meaning">
-                                (etc.) A set of keys used to operate a
-                                typewriter, computer etc.
-                            </li>
-                            <li className="meaning">
-                                A component of many instruments including the
-                                piano, organ, and harpsichord consisting of
-                                usually black and white keys that cause
-                                different tones to be produced when struck.
-                            </li>
-                            <li className="meaning">
-                                A device with keys of a musical keyboard, used
-                                to control electronic sound-producing devices
-                                which may be built into or separate from the
-                                keyboard device.
-                            </li>
+                            {generateMeanings(data.meanings, "verb")}
                         </ul>
                     </div>
                 </div>
                 <hr />
                 <div className="main-footer">
                     <h4>Source</h4>
-                    <a href="">www.deinemom.de</a>
+                    <a href={source} target="_blank">
+                        {source}
+                    </a>
                     <img src="images/icon-new-window.svg" alt="" />
                 </div>
             </main>

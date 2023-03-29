@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 
-type Props = {
+type TProps = {
     darkMode: {
         isDarkMode: boolean
         setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
     }
 }
 
-export default function Header(props: Props) {
+export default function Header(props: TProps) {
     const { isDarkMode, setIsDarkMode } = props.darkMode
 
     const [showSelectModal, setShowSelectModal] = useState<boolean>(false),

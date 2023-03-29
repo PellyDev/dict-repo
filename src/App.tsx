@@ -3,6 +3,9 @@ import Header from "./components/Header"
 import Main from "./components/Main"
 import { useFetch } from "./hooks/useFetch"
 
+import { IWord, IError } from "./interfaces/interface"
+import { TData } from "./hooks/useFetch"
+
 const API_BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 function App() {
@@ -17,10 +20,7 @@ function App() {
         fetchUrl(API_BASE_URL + searchTerm)
         setSearchTerm("")
     }
-
     console.log(data)
-    if (err) console.log(err)
-
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
         <>
@@ -41,10 +41,10 @@ function App() {
                     <img src="/images/icon-search.svg" alt="" />
                 </button>
             </form>
-            {loading ? (
-                <div style={{ fontSize: "100px" }}>Loading...</div>
-            ) : (
-                <Main data={data} />
+            {loading && <div style={{ fontSize: "100px" }}>Loading...</div>}
+            {(data as IError)?.title && <div>Error</div>}
+            {(data as Array<IWord>)?.[0]?.word && (
+                <Main data={data as Array<IWord>} />
             )}
         </>
     )
