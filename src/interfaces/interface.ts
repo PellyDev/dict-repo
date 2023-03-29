@@ -1,4 +1,7 @@
-/* interface for API response -> https://api.dictionaryapi.dev/api/v2/entries/en/ */
+/* 
+    interfaces for API response -> https://api.dictionaryapi.dev/api/v2/entries/en/ 
+    API is going to return Array<IWord> on success and IError on failure
+*/
 
 export interface IWord {
     license: { name: string; url: string }
@@ -9,20 +12,20 @@ export interface IWord {
     word: string
 }
 
-export interface IMeanings {
+interface IMeanings {
     antonyms: Array<string>
     definitions: Array<IDefinitions>
     partOfSpeech: string
     synonyms: Array<string>
 }
 
-export interface IDefinitions {
+interface IDefinitions {
     definition: string
     synonyms: Array<string>
     antonyms: Array<string>
 }
 
-export interface IPhonetics {
+interface IPhonetics {
     audio: string
     license: { name: string; url: string }
     sourceUrl: string
