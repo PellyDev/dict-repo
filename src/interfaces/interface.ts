@@ -28,3 +28,9 @@ export interface IPhonetics {
     sourceUrl: string
     text: string
 }
+
+export interface IError {
+    message: string
+    resolution: string
+    title: string
+}

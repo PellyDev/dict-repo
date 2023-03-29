@@ -1,12 +1,7 @@
-import {
-    IWord,
-    IMeanings,
-    IDefinitions,
-    IPhonetics,
-} from "../interfaces/interface"
+import { IWord, IError } from "../interfaces/interface"
 
 type Props = {
-    data: Array<IWord>
+    data: Array<IWord> | IError | null
 }
 
 export default function Main(props: Props) {
