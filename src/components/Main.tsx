@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { IWord, IError, IMeanings } from "../interfaces/interface"
 
 /* this component is only gonna be rendered if api call has been successful, therefore we don't need to check prop type for IWord or null  */
@@ -6,17 +7,22 @@ type TProps = {
 }
 
 export default function Main(props: TProps) {
-    const data = props.data[0]
+    const [playingAudio, setPlayingAudio] = useState<boolean>(false)
 
+    const data = props.data[0]
     const headWord = data.word
     const pronounciation = data.phonetics[0]?.text
-    const audio = data.phonetics[0]?.audio
     const source = data.sourceUrls[0]
+    const audio = data.phonetics[0]?.audio
+        ? new Audio(data.phonetics[0].audio)
+        : null
+
+    console.log(audio)
 
     function generateMeanings(
         meanings: Array<IMeanings>,
         partOfSpeech: "noun" | "verb"
-    ): Array<JSX.Element> | undefined {
+    ): Array<JSX.Element> | null {
         // filter the meanings array to only include the array that matches the partOfSpeech
         let flag = false
         const temp = meanings.filter((meaning) => {
@@ -26,8 +32,8 @@ export default function Main(props: TProps) {
                 return meaning
             }
         })
-        // if no meaning for verb or noun has been found, return undefined
-        if (temp.length === 0) return undefined
+        // if no meaning for verb or noun has been found, return null
+        if (temp.length === 0) return null
         // destructure the nounMeanings array from the temp array
         const { definitions: meaningsList } = temp[0]
         // map over the nounMeanings array and return a new array that contains a list item for each meaning
@@ -39,6 +45,43 @@ export default function Main(props: TProps) {
             )
         })
     }
+
+    function generateSynonyms(
+        meanings: Array<IMeanings>
+    ): Array<JSX.Element> | null {
+        let flag = false
+        const temp = meanings.filter((meaning) => {
+            if (flag) return false
+            if (meaning.partOfSpeech === "noun") {
+                flag = true
+                return meaning
+            }
+        })
+        if (temp.length === 0) return null
+        const { synonyms: synonymsList } = temp[0]
+        if (synonymsList.length === 0) return null
+
+        // return an array with at most 5 synonyms
+        return synonymsList.slice(0, 5).map((synonym, idx) => (
+            <li key={idx}>
+                <p>{synonym}</p>
+            </li>
+        ))
+    }
+
+    function handleAudio() {
+        if (!audio) return
+        if (playingAudio) return
+        audio.play()
+        setPlayingAudio(true)
+    }
+
+    useEffect(() => {
+        if (!audio) return
+        audio.addEventListener("ended", () => {
+            setPlayingAudio(false)
+        })
+    }, [playingAudio])
 
     return (
         <>
@@ -52,8 +95,34 @@ export default function Main(props: TProps) {
                     </div>
                     <div className="head-right">
                         <div className="head-play">
-                            <button className="play-button">
-                                <img src="/images/icon-play.svg" alt="" />
+                            <button
+                                onClick={handleAudio}
+                                className="play-button"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="75"
+                                    height="75"
+                                    viewBox="0 0 75 75"
+                                >
+                                    <g
+                                        className={
+                                            !audio || playingAudio
+                                                ? "disabled"
+                                                : ""
+                                        }
+                                        fill="#A445ED"
+                                        fill-rule="evenodd"
+                                    >
+                                        <circle
+                                            cx="37.5"
+                                            cy="37.5"
+                                            r="37.5"
+                                            opacity=".25"
+                                        />
+                                        <path d="M29 27v21l21-10.5z" />
+                                    </g>
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -64,8 +133,7 @@ export default function Main(props: TProps) {
                             <h2>noun</h2>
                             <hr className="divider" />
                         </div>
-                        {generateMeanings(data.meanings, "noun") ===
-                        undefined ? (
+                        {generateMeanings(data.meanings, "noun") === null ? (
                             <h3>No noun found 😢</h3>
                         ) : (
                             <>
@@ -76,15 +144,16 @@ export default function Main(props: TProps) {
                             </>
                         )}
                         <div className="synonyms-container">
-                            <h3>Synonyms</h3>
-                            <ul className="synonyms">
-                                <li>
-                                    <a href="">big pp</a>
-                                </li>
-                                <li>
-                                    <a href="">big pp</a>
-                                </li>
-                            </ul>
+                            {generateSynonyms(data.meanings) === null ? (
+                                <h3>No synonyms found 😢</h3>
+                            ) : (
+                                <>
+                                    <h3>Synonyms</h3>
+                                    <ul className="synonyms">
+                                        {generateSynonyms(data.meanings)}
+                                    </ul>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="body-verb-container">
@@ -92,8 +161,7 @@ export default function Main(props: TProps) {
                             <h2>verb</h2>
                             <hr className="divider" />
                         </div>
-                        {generateMeanings(data.meanings, "verb") ===
-                        undefined ? (
+                        {generateMeanings(data.meanings, "verb") === null ? (
                             <h3>No verbs found 😢</h3>
                         ) : (
                             <>

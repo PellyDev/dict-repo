@@ -9,16 +9,29 @@ import { TData } from "./hooks/useFetch"
 const API_BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 function App() {
+    const [isInvalid, setIsInvalid] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const { data, err, loading, fetchUrl } = useFetch()
+
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setIsInvalid(false)
         setSearchTerm(e.target.value)
+    }
+
+    function inputValidation(input: string): boolean {
+        // returns true if input is not empty and only contains english letters (a-z, A-Z)
+        const regExp = new RegExp(/^[a-zA-Z]+$/)
+        return regExp.test(input)
     }
 
     function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        fetchUrl(API_BASE_URL + searchTerm)
-        setSearchTerm("")
+        if (inputValidation(searchTerm)) {
+            fetchUrl(API_BASE_URL + searchTerm)
+            setSearchTerm("")
+        } else {
+            setIsInvalid(true)
+        }
     }
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
@@ -31,11 +44,17 @@ function App() {
             />
             <form className="searchbar" onSubmit={handleFormSubmit}>
                 <input
+                    className={isInvalid ? "invalid" : ""}
                     onChange={handleInputChange}
                     value={searchTerm}
                     type="text"
                     placeholder="Search for any word..."
                 />
+
+                <p className={`error-text ${isInvalid ? "active" : ""}`}>
+                    Please enter a word or remove invalid characters.
+                </p>
+
                 <button type="submit">
                     <img src="/images/icon-search.svg" alt="" />
                 </button>
