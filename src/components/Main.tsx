@@ -17,8 +17,6 @@ export default function Main(props: TProps) {
         ? new Audio(data.phonetics[0].audio)
         : null
 
-    console.log(audio)
-
     function generateMeanings(
         meanings: Array<IMeanings>,
         partOfSpeech: "noun" | "verb"
@@ -34,9 +32,9 @@ export default function Main(props: TProps) {
         })
         // if no meaning for verb or noun has been found, return null
         if (temp.length === 0) return null
-        // destructure the nounMeanings array from the temp array
+        // destructure the meaningsList array from the temp array
         const { definitions: meaningsList } = temp[0]
-        // map over the nounMeanings array and return a new array that contains a list item for each meaning
+        // map over the meaningsList array and return a new array that contains a list item for each meaning
         return meaningsList.map((meaning, idx) => {
             return (
                 <li key={idx} className="meaning">
@@ -112,7 +110,7 @@ export default function Main(props: TProps) {
                                                 : ""
                                         }
                                         fill="#A445ED"
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                     >
                                         <circle
                                             cx="37.5"

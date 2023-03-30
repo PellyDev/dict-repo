@@ -297,11 +297,13 @@ hr {
     padding-left: 2rem;
     padding-top: 0.25rem;
     opacity: 0;
-    transition: opacity 100ms ease-in-out;
+    translate: -5% 0;
+    transition: opacity 100ms ease-in-out, translate 100ms ease-in-out;
 }
 
 .error-text.active {
     opacity: 1;
+    translate: 0 0;
 }
 
 /* main */

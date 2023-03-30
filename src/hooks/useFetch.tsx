@@ -7,7 +7,7 @@ export function useFetch() {
     const [data, setData] = useState<TData>(null)
     const [err, setErr] = useState<any>(null)
     const [loading, setLoading] = useState<boolean>(false)
-    async function fetchUrl(url: string) {
+    async function fetchUrl(url: string, cb?: () => void) {
         setLoading(true)
         setData(null)
         try {
@@ -20,7 +20,8 @@ export function useFetch() {
             setErr(e)
         } finally {
             setLoading(false)
+            if (cb) cb()
         }
     }
-    return { data, err, loading, fetchUrl }
+    return { data, setData, err, setErr, loading, fetchUrl }
 }

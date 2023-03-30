@@ -11,10 +11,13 @@ const API_BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 function App() {
     const [isInvalid, setIsInvalid] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
-    const { data, err, loading, fetchUrl } = useFetch()
-
+    const { data, setData, err, setErr, loading, fetchUrl } = useFetch()
+    const errorText = isInvalid
+        ? "Please enter a word or remove invalid characters."
+        : "The word you've searched could not be found. Please try another one!"
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setIsInvalid(false)
+        setErr(null)
         setSearchTerm(e.target.value)
     }
 
@@ -26,13 +29,14 @@ function App() {
 
     function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        if (inputValidation(searchTerm)) {
-            fetchUrl(API_BASE_URL + searchTerm)
+        if (inputValidation(searchTerm.trim())) {
+            fetchUrl(API_BASE_URL + searchTerm.trim())
             setSearchTerm("")
         } else {
             setIsInvalid(true)
         }
     }
+
     const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
         <>
@@ -44,23 +48,20 @@ function App() {
             />
             <form className="searchbar" onSubmit={handleFormSubmit}>
                 <input
-                    className={isInvalid ? "invalid" : ""}
+                    className={isInvalid || err ? "invalid" : ""}
                     onChange={handleInputChange}
                     value={searchTerm}
                     type="text"
                     placeholder="Search for any word..."
                 />
-
-                <p className={`error-text ${isInvalid ? "active" : ""}`}>
-                    Please enter a word or remove invalid characters.
+                <p className={`error-text ${isInvalid || err ? "active" : ""}`}>
+                    {errorText}
                 </p>
 
                 <button type="submit">
                     <img src="/images/icon-search.svg" alt="" />
                 </button>
             </form>
-            {loading && <div style={{ fontSize: "100px" }}>Loading...</div>}
-            {(data as IError)?.title && <div>Error</div>}
             {(data as Array<IWord>)?.[0]?.word && (
                 <Main data={data as Array<IWord>} />
             )}
