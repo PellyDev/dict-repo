@@ -9,14 +9,12 @@ export function useFetch() {
     const [loading, setLoading] = useState<boolean>(false)
     async function fetchUrl(url: string, cb?: () => void) {
         setLoading(true)
-        setData(null)
         try {
             const res = await fetch(url)
             if (!res.ok) setErr(res.status)
             const json = await res.json()
             setData(json)
         } catch (e) {
-            console.log
             setErr(e)
         } finally {
             setLoading(false)

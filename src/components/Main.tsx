@@ -7,15 +7,15 @@ type TProps = {
 }
 
 export default function Main(props: TProps) {
-    const [playingAudio, setPlayingAudio] = useState<boolean>(false)
-
     const data = props.data[0]
     const headWord = data.word
     const pronounciation = data.phonetics[0]?.text
     const source = data.sourceUrls[0]
-    const audio = data.phonetics[0]?.audio
-        ? new Audio(data.phonetics[0].audio)
-        : null
+
+    const [playingAudio, setPlayingAudio] = useState<boolean>(false)
+    const [audio, setAudio] = useState<HTMLAudioElement | null>(
+        data.phonetics[0]?.audio ? new Audio(data.phonetics[0].audio) : null
+    )
 
     function generateMeanings(
         meanings: Array<IMeanings>,
@@ -67,19 +67,23 @@ export default function Main(props: TProps) {
         ))
     }
 
-    function handleAudio() {
-        if (!audio) return
-        if (playingAudio) return
+    function handleAudio(): void {
+        if (!audio || playingAudio) return
         audio.play()
         setPlayingAudio(true)
     }
 
+    function handleAudioEnded(): void {
+        setPlayingAudio(false)
+    }
+
     useEffect(() => {
         if (!audio) return
-        audio.addEventListener("ended", () => {
-            setPlayingAudio(false)
-        })
-    }, [playingAudio])
+        audio.addEventListener("ended", handleAudioEnded)
+        return () => {
+            audio.removeEventListener("ended", handleAudioEnded)
+        }
+    }, [])
 
     return (
         <>
@@ -132,7 +136,7 @@ export default function Main(props: TProps) {
                             <hr className="divider" />
                         </div>
                         {generateMeanings(data.meanings, "noun") === null ? (
-                            <h3>No noun found 😢</h3>
+                            <h3>No noun found</h3>
                         ) : (
                             <>
                                 <h3>Meanings</h3>
@@ -143,7 +147,7 @@ export default function Main(props: TProps) {
                         )}
                         <div className="synonyms-container">
                             {generateSynonyms(data.meanings) === null ? (
-                                <h3>No synonyms found 😢</h3>
+                                <h3>No synonyms found</h3>
                             ) : (
                                 <>
                                     <h3>Synonyms</h3>
@@ -160,7 +164,7 @@ export default function Main(props: TProps) {
                             <hr className="divider" />
                         </div>
                         {generateMeanings(data.meanings, "verb") === null ? (
-                            <h3>No verbs found 😢</h3>
+                            <h3>No verbs found</h3>
                         ) : (
                             <>
                                 <h3>Meanings</h3>
