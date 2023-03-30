@@ -96,6 +96,10 @@ ________________________________________________________________________________
     --fw-normal: normal;
     --fw-bold: 600;
     --fw-boldest: 800;
+    /* dark mode */
+    --color-dark-bg: #070707;
+    --color-dark-primary: #ffffff;
+    --color-dark-primary-light: #bbbbbb;
     /* colors */
     --color-primary: #2d2d2d;
     --color-primary-light: #757575;
@@ -107,10 +111,12 @@ ________________________________________________________________________________
 
 body {
     font-family: var(--ff-sans-serif);
+    background-color: var(--color-bg);
     color: var(--color-primary);
     max-width: 800px;
     margin: 0 auto;
     font-size: var(--fs-body-m);
+    transition: background-color 400ms ease-in-out;
 }
 
 h2 {
@@ -345,7 +351,12 @@ hr {
 .play-button {
     border: none;
     background-color: var(--color-bg);
+    width: fit-content;
+    height: fit-content;
+    border-radius: 100%;
+    overflow: hidden;
     cursor: pointer;
+    transition: background-color 400ms ease-in-out;
 }
 
 .play-button svg g:not(.disabled):hover {

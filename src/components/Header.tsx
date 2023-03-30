@@ -74,6 +74,7 @@ export default function Header(props: TProps) {
                         {displayCurrentSelection(currentSelection)}
                     </div>
                     <div
+                        style={isDarkMode ? { backgroundColor: "#323232" } : {}}
                         className={`select-modal ${
                             showSelectModal ? "active" : ""
                         }`}

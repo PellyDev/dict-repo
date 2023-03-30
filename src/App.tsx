@@ -8,13 +8,37 @@ import { IWord } from "./interfaces/interface"
 const API_BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
 function App() {
+    function detectDarkMode(): boolean {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+    }
+
+    // detect dark mode by checking the user's system preference
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(detectDarkMode())
     const [isInvalid, setIsInvalid] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const { data, setData, err, setErr, loading, fetchUrl } = useFetch()
 
     const errorText = isInvalid
         ? "Please enter a word or remove invalid characters."
-        : "The word you've searched could not be found. Please try another one!"
+        : "The word you've searched for could not be found. Please try another one!"
+
+    const root = document.querySelector(":root") as HTMLElement
+    if (isDarkMode) {
+        root.style.setProperty("--color-bg", "var(--color-dark-bg)")
+        root.style.setProperty("--color-primary", "var(--color-dark-primary)")
+        root.style.setProperty(
+            "--color-primary-light",
+            "var(--color-dark-primary-light)"
+        )
+    } else {
+        root.style.setProperty("--color-bg", "var(--color-bg)")
+        root.style.setProperty("--color-primary", "var(--color-primary)")
+        root.style.setProperty(
+            "--color-primary-light",
+            "var(--color-primary-light)"
+        )
+    }
+
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setIsInvalid(false)
         setErr(null)
@@ -37,7 +61,6 @@ function App() {
         }
     }
 
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
     return (
         <>
             <Header

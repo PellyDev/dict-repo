@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { IWord, IError, IMeanings } from "../interfaces/interface"
+import { IWord, IMeanings } from "../interfaces/interface"
 
 /* this component is only gonna be rendered if api call has been successful, therefore we don't need to check prop type for IWord or null  */
 type TProps = {
@@ -13,9 +13,23 @@ export default function Main(props: TProps) {
     const source = data.sourceUrls[0]
 
     const [playingAudio, setPlayingAudio] = useState<boolean>(false)
-    const [audio, setAudio] = useState<HTMLAudioElement | null>(
-        data.phonetics[0]?.audio ? new Audio(data.phonetics[0].audio) : null
-    )
+    const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+
+    // new audio element is created every time the data prop changes
+    useEffect(() => {
+        setAudio(
+            data.phonetics[0]?.audio ? new Audio(data.phonetics[0].audio) : null
+        )
+    }, [data])
+    // a new event listener is added to the audio element every time the audio element changes
+    // new audio useEffect fires -> rerender -> event listener useEffect fires -> rerender
+    useEffect(() => {
+        if (!audio) return
+        audio.addEventListener("ended", handleAudioEnded)
+        return () => {
+            audio.removeEventListener("ended", handleAudioEnded)
+        }
+    }, [audio])
 
     function generateMeanings(
         meanings: Array<IMeanings>,
@@ -76,14 +90,6 @@ export default function Main(props: TProps) {
     function handleAudioEnded(): void {
         setPlayingAudio(false)
     }
-
-    useEffect(() => {
-        if (!audio) return
-        audio.addEventListener("ended", handleAudioEnded)
-        return () => {
-            audio.removeEventListener("ended", handleAudioEnded)
-        }
-    }, [])
 
     return (
         <>
