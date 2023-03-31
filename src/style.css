@@ -100,13 +100,17 @@ ________________________________________________________________________________
     --color-dark-bg: #070707;
     --color-dark-primary: #ffffff;
     --color-dark-primary-light: #bbbbbb;
+    /* light mode */
+    --color-light-bg: #d8d8d8;
+    --color-light-primary: #2d2d2d;
+    --color-light-primary-light: #757575;
     /* colors */
+    --color-bg: #d8d8d8;
     --color-primary: #2d2d2d;
     --color-primary-light: #757575;
     --color-primary-lightest: #f4f4f4;
     --color-accent: #a445ed;
     --color-error: #ff5252;
-    --color-bg: #ffffff;
 }
 
 body {
@@ -118,7 +122,6 @@ body {
     margin: 0 auto;
     padding: 1rem;
     font-size: var(--fs-body-m);
-    transition: background-color 400ms ease-in-out;
 }
 
 h2 {

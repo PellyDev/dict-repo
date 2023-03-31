@@ -12,8 +12,8 @@ function App() {
         return window.matchMedia("(prefers-color-scheme: dark)").matches
     }
 
-    // detect dark mode by checking the user's system preference
     const [isDarkMode, setIsDarkMode] = useState<boolean>(detectDarkMode())
+    const [initialDarkMode, setInitialDarkMode] = useState<boolean>(true)
     const [isInvalid, setIsInvalid] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const { data, setData, err, setErr, loading, fetchUrl } = useFetch()
@@ -22,22 +22,40 @@ function App() {
         ? "Please enter a word or remove invalid characters."
         : "The word you've searched for could not be found. Please try another one!"
 
-    const root = document.querySelector(":root") as HTMLElement
-    if (isDarkMode) {
-        root.style.setProperty("--color-bg", "var(--color-dark-bg)")
-        root.style.setProperty("--color-primary", "var(--color-dark-primary)")
-        root.style.setProperty(
-            "--color-primary-light",
-            "var(--color-dark-primary-light)"
-        )
-    } else {
-        root.style.setProperty("--color-bg", "var(--color-bg)")
-        root.style.setProperty("--color-primary", "var(--color-primary)")
-        root.style.setProperty(
-            "--color-primary-light",
-            "var(--color-primary-light)"
-        )
-    }
+    // detect dark mode by checking the user's system preference
+    useEffect(() => {
+        const root = document.querySelector(":root") as HTMLElement
+        if (isDarkMode) {
+            root.style.setProperty("--color-bg", "var(--color-dark-bg)")
+            root.style.setProperty(
+                "--color-primary",
+                "var(--color-dark-primary)"
+            )
+            root.style.setProperty(
+                "--color-primary-light",
+                "var(--color-dark-primary-light)"
+            )
+        } else {
+            root.style.setProperty("--color-bg", "var(--color-light-bg)")
+            root.style.setProperty(
+                "--color-primary",
+                "var(--color-light-primary)"
+            )
+            root.style.setProperty(
+                "--color-primary-light",
+                "var(--color-light-primary-light)"
+            )
+        }
+        // set the transition for bg color after the initial dark mode setup so that the bg color doesn't change when the page is first loaded
+        if (initialDarkMode) {
+            const bodyStyle = document.body.style
+            // timeout so the transition doesn't immediately apply after rerender
+            setTimeout(() => {
+                bodyStyle.transition = "background-color 400ms ease-in-out"
+            }, 50)
+            setInitialDarkMode(false)
+        }
+    }, [isDarkMode])
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setIsInvalid(false)
