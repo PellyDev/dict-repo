@@ -5,11 +5,15 @@ type TProps = {
         isDarkMode: boolean
         setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>
     }
+    refs: {
+        navLeftRef: React.RefObject<HTMLDivElement>
+        navRightRef: React.RefObject<HTMLDivElement>
+    }
 }
 
 export default function Header(props: TProps) {
     const { isDarkMode, setIsDarkMode } = props.darkMode
-
+    const { navLeftRef, navRightRef } = props.refs
     const [showSelectModal, setShowSelectModal] = useState<boolean>(false),
         [currentSelection, setCurrentSelection] = useState<string>("sans-serif")
 
@@ -62,10 +66,10 @@ export default function Header(props: TProps) {
 
     return (
         <header className="header">
-            <div className="nav-left">
+            <div ref={navLeftRef} className="nav-left">
                 <img src="images/logo.svg" alt="" />
             </div>
-            <div className="nav-right">
+            <div ref={navRightRef} className="nav-right">
                 <div
                     onClick={() => setShowSelectModal((prev) => !prev)}
                     className="select-container"

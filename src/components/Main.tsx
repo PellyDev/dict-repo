@@ -15,6 +15,8 @@ export default function Main(props: TProps) {
 
     const [playingAudio, setPlayingAudio] = useState<boolean>(false)
     const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+    // sets the scope for gsap animations --> allows using css class selectors to group animations
+    const scopeRef = useRef(null)
 
     // new audio element is created every time the data prop changes
     useEffect(() => {
@@ -32,9 +34,6 @@ export default function Main(props: TProps) {
         }
     }, [audio])
 
-    // gsap animations
-    const scope = useRef(null)
-
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.from(".animate", {
@@ -44,7 +43,8 @@ export default function Main(props: TProps) {
                 stagger: 0.25,
                 ease: "power2.out",
             })
-        }, scope)
+        }, scopeRef)
+        const timeline = gsap.timeline()
 
         // cleanup
         return () => {
@@ -114,7 +114,7 @@ export default function Main(props: TProps) {
 
     return (
         <>
-            <main className="main" ref={scope}>
+            <main className="main" ref={scopeRef}>
                 <div className="main-head animate">
                     <div className="head-left">
                         <h1 className="head-word">{headWord}</h1>
