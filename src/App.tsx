@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useLayoutEffect, useState } from "react"
 import Header from "./components/Header"
 import Main from "./components/Main"
 import { useFetch } from "./hooks/useFetch"
@@ -56,6 +56,8 @@ function App() {
             setInitialDarkMode(false)
         }
     }, [isDarkMode])
+
+    useLayoutEffect(() => {})
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setIsInvalid(false)

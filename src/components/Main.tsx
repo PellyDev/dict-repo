@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import gsap from "gsap"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { IWord, IMeanings } from "../interfaces/interface"
 
 /* this component is only gonna be rendered if api call has been successful, therefore we don't need to check prop type for IWord or null  */
@@ -30,6 +31,26 @@ export default function Main(props: TProps) {
             audio.removeEventListener("ended", handleAudioEnded)
         }
     }, [audio])
+
+    // gsap animations
+    const scope = useRef(null)
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from(".animate", {
+                opacity: 0,
+                x: -100,
+                duration: 1,
+                stagger: 0.25,
+                ease: "power2.out",
+            })
+        }, scope)
+
+        // cleanup
+        return () => {
+            ctx.revert()
+        }
+    }, [data])
 
     function generateMeanings(
         meanings: Array<IMeanings>,
@@ -93,8 +114,8 @@ export default function Main(props: TProps) {
 
     return (
         <>
-            <main className="main">
-                <div className="main-head">
+            <main className="main" ref={scope}>
+                <div className="main-head animate">
                     <div className="head-left">
                         <h1 className="head-word">{headWord}</h1>
                         <div className="head-pronounciation">
@@ -136,7 +157,7 @@ export default function Main(props: TProps) {
                     </div>
                 </div>
                 <div className="main-body">
-                    <div className="body-noun-container">
+                    <div className="body-noun-container animate">
                         <div className="noun-divider">
                             <h2>noun</h2>
                             <hr className="divider" />
@@ -164,7 +185,7 @@ export default function Main(props: TProps) {
                             )}
                         </div>
                     </div>
-                    <div className="body-verb-container">
+                    <div className="body-verb-container animate">
                         <div className="verb-divider">
                             <h2>verb</h2>
                             <hr className="divider" />
@@ -182,7 +203,7 @@ export default function Main(props: TProps) {
                     </div>
                 </div>
                 <hr />
-                <div className="main-footer">
+                <div className="main-footer animate">
                     <h4>Source</h4>
                     <a href={source} target="_blank">
                         {source}
